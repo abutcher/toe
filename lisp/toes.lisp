@@ -159,6 +159,7 @@
 	"toe/csv"
 	"toe/likelyhood"
 	"toe/anomaly"
+	"toe/count"
 	"cat"
 	))
 

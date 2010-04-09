@@ -3,7 +3,7 @@
 			  :direction :output
 			  :if-exists :supersede
 			  :if-does-not-exist :create )
-    (let ((seen (xindex-tot-2 train))
+    (let ((seen (count-list train))
 	  (test-egs (mapcar #'eg-features (egs test)))
 	  (train-egs (mapcar #'eg-features (egs train)))
 	  (test-tmp)
