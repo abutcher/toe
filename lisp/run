@@ -1,0 +1,43 @@
+#|
+exec sbcl --noinform --load $0 --end-toplevel-options "$@"
+|#
+
+(load "toes.lisp")
+
+(format t "~%~%==== TOE: Sub-Sampling ===================== ~%~%")
+(cat "toe/sub-sampling.lisp")
+(format t "~%==== DEFTEST ====~%~%")
+(test-sub-sampling)
+
+(format t "~%~%==== TOE: Over-Sampling ===================== ~%~%")
+(cat "toe/over-sampling.lisp")
+(format	t "~%~%==== DEFTEST ====~%~%")
+(test-over-sampling)
+
+(format t "~%~%==== TOE: Micro Sampling ==================== ~%~%")
+(cat "toe/micro-sampling.lisp")
+(format	t "~%==== DEFTEST ====~%~%")
+(test-micro-sampling)
+
+(format t "~%~%==== TOE: GAC =============================== ~%~%")
+(cat "toe/gac.lisp")
+(format	t "~%==== DEFTEST ====~%~%")
+(test-gac)
+
+(format t "~%~%==== TOE: Sampler =========================== ~%~%")
+(cat "toe/sampler.lisp")
+(format	t "~%==== DEFTEST ====~%~%")
+(test-sampler)
+
+(format t "~%~%==== TOE: Alienator ========================= ~%~%")
+(cat "toe/alienator.lisp")
+(format	t "~%==== DEFTEST ====~%~%")
+(test-alienator)
+
+(format t "~%~%==== TOE: Utility ========================= ~%~%")
+(cat "toe/utility.lisp")
+(cat "toe/score.lisp")
+(format	t "~%==== DEFTEST ====~%~%")
+(test-utility)
+
+(quit)

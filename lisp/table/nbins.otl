@@ -1,0 +1,67 @@
+http://unbox.org/wisp/var/timm/10/ai/i
+
+Notes on: src/lisp/table/nbins.lisp
+
+How to load
+	(load "games")
+	(make-tables)
+	(load "tables/nbin.lisp")
+	(load "../../share/data/weathernumerics.lisp")
+	(nth (weather-numerics) :n 3)
+	: rsults should all be labelled 0,1,2
+
+What does a table look like itnernally?
+	run (make-data1) and see
+
+How to get data out of a table
+	2, 29, 30, 32,33,33
+
+What are the valid accessors to a table?
+	See src/lisp/table/structs.lisp
+
+How to put data into a new table
+	see general form of nbins
+
+How turn a string to a symbol
+	intern, 41
+
+How turn a symbol to a string
+	symbl-name, 43
+
+How to case on type
+	53,56,37,40
+
+How to use inherited accessorts
+	Note 44 header-name. Works for both column and numerics
+
+How to define local functions inside a fnctions
+	see "labels" in nbins
+
+How to pass code as data
+	34 becomes the "how" of discretize
+
+How to do error handling (e.g. abort after n warnings)
+	define on "caution" struct 
+		: before processing that table
+	carry it around 
+		: over all the processsing
+	example
+		: nbins defines a "caution", 
+		: sane numbers writes a caution
+
+How to remove funny symbols from the numbers
+	sane-numbers (line 4)
+	 bug (exercise for the reader)
+		: column of numbers will now be shorter after removal
+
+How to runs columns into rows, with header data at the start of each row
+	First, add the header list to the start of egs (51)
+	Second, transpose columns to rows (50)
+	Thirds, run down row (header data is at start of each row)
+	Fourth, transpose back (47)
+
+How to write another discretizer
+	need a new top level driver (clone "nbins")
+	need lowerest level worker (clone "nbins1")
+	what you won't need
+		 : a new discrete egs

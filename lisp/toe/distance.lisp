@@ -1,0 +1,20 @@
+(defun distance (eg-one eg-two klass-index)
+  "basic euclidian distance function for two rows in a table"
+  (let ((sum 0))
+    (dolist (one eg-one)
+      (dolist (two eg-two)
+	(if (not (= (position one eg-one) klass-index))
+	    (if (and (numberp one) (numberp two))
+		(setf sum (+ sum (expt (- two one) 2)))
+		(if (eql one two)
+		    (setf sum (+ sum 1)))))))
+      (sqrt sum)))
+
+(defun test-distance ()
+  "returns distance for row one and two of weather-numerics - does not use a transform"
+  (let ((egsx (mapcar #'eg-features (egs (weather-numerics)))))
+    (format t "~A~%" (first egsx))
+    (format t "~A~%" (second egsx))
+    (format t "Excluding ~A~%" (table-class (weather-numerics)))
+    (distance (first egsx) (second egsx) (table-class (weather-numerics)))
+    ))
