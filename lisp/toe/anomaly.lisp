@@ -1,86 +1,54 @@
-(defun anomaly-detector (train test file)
+(defun anomaly-detector (train tests file &optional (fix-anomaly? NIL))
   (with-open-file (stream file
 			  :direction :output
 			  :if-exists :supersede
 			  :if-does-not-exist :create )
-    (let ((seen (count-list train))
-	  (test-egs (mapcar #'eg-features (egs test)))
-	  (train-egs (mapcar #'eg-features (egs train)))
-	  (test-tmp)
-	  (train-tmp)
-	  (train-minmax)
-	  (test-minmax))
+    (let* ((seen (count-list train))
+	   (train-mm (train-min-max (mapcar #'eg-features (egs train)) seen))
+	   (train-min (first train-mm))
+	   (train-max (second train-mm)))
       
       (format stream "TRAINING ON: ~A~%" (table-name train))
-      (format stream "TESTING ON: ~A~%" (table-name test))	
-
-      (dolist (eg train-egs)
-	(push (list eg (likelyhood eg seen)) train-tmp))      
-      (dolist (eg test-egs)
-	(push (list eg (likelyhood eg seen)) test-tmp))
+      (format stream "TRAIN LENGTH: ~A~%" (length (egs train)))
       
-      (format stream "********* TRAIN SET *********~%")
-      (setf train-minmax (find-min-max 
-			  (mapcar #'first (mapcar #'cdr train-tmp))))
-      (setf train-min (first train-minmax))
-      (setf train-max (second train-minmax))
-      (format stream "MIN: ~A MAX: ~A~%" train-min train-max)
-      (format stream "~A~%" train-tmp)
-      
-      (format stream "********* TEST SET *********~%")
-      (setf test-minmax (find-min-max 
-			 (mapcar #'first (mapcar #'cdr test-tmp))))
-      (setf test-min (first test-minmax))
-      (setf test-max (second test-minmax))
-      (format stream "MIN: ~A MAX: ~A~%" test-min test-max)
-      (format stream "~A~%" test-tmp)
-      
-      (let ((accept 0) (reject 0))
-	(dolist (eg test-tmp)
-	  (if (or (< (first (cdr eg)) train-min)
-		  (> (first (cdr eg)) train-max))
-	      (incf reject)
-	      (incf accept)))
-	(format stream "ACCEPTED: ~A REJECTED: ~A~%" accept reject))
-      file)))
+      (dolist (this-test tests)
+	(format stream "~%~%TESTING ON ERA: ~A~%" (position this-test tests))
+	(format stream "ERA LENGTH: ~A~%" (length (egs this-test)))
+	(let ((accepted)(rejected))
+	  (dolist (eg (mapcar #'eg-features (egs this-test)))
+	    (let ((eg-likelyhood (likelyhood eg seen)))
+	      (if (and (< eg-likelyhood train-min)
+		       (> eg-likelyhood train-max))
+		  (push eg rejected)
+		  (push eg accepted))))
+	  (format stream "ACCEPTED: ~A~%" (length accepted))
+	  (format stream "REJECTED: ~A~%" (length rejected))
 
-(defun run-tests ()
-  (anomaly-detector 
-   (sampler (weather-yes-train) 100) 
-   (sampler (weather-yes-normal-test) 30) 
-   "weather-yes-normal.txt")
+	  ; If user set fix-anomaly's to true we'll fix them here
+	  (if fix-anomaly?
+	      (progn
+		(dolist (eg rejected)
+		  (push (contrast eg train) accepted))
+		(format stream "PATCHED ~A ANOMALIES~%" (length rejected))))
 
-  (anomaly-detector 
-   (sampler (weather-no-train) 100) 
-   (sampler (weather-no-normal-test) 30) 
-   "weather-no-normal.txt")
+	  ; Update train table
+	  (setf train 
+		(data
+		 :name (table-name train)
+		 :columns (columns-header (table-columns train))
+		 :klass (table-class train)
+		 :egs (append accepted (mapcar #'eg-features (egs train)))
+		 ))
+	  ; Remake seen
+	  (setf seen (count-list train))
+	  ; Update train-min and train-max
+	  (setf train-mm (train-min-max (mapcar #'eg-features (egs train)) seen))
+	  (setf train-min (first train-mm))
+	  (setf train-max (second train-mm)))))
+    file))
 
-  (anomaly-detector 
-   (sampler (weather-yes-train) 100) 
-   (sampler (weather-yes-abnormal-test) 30) 
-   "weather-yes-abnormal.txt")
-
-  (anomaly-detector 
-   (sampler (weather-no-train) 100) 
-   (sampler (weather-no-abnormal-test) 30) 
-   "weather-no-abnormal.txt")
-
-  (anomaly-detector 
-   (sampler (weather-numerics) 100) 
-   (sampler (weather-yes-normal-test) 30) 
-   "weather-vs-yes-normal.txt")
-
-  (anomaly-detector 
-   (sampler (weather-numerics) 100) 
-   (sampler (weather-yes-abnormal-test) 30) 
-   "weather-vs-yes-abnormal.txt")
-
-  (anomaly-detector 
-   (sampler (weather-numerics) 100) 
-   (sampler (weather-no-normal-test) 30) 
-   "weather-vs-no-normal.txt")
-
-  (anomaly-detector 
-   (sampler (weather-numerics) 100) 
-   (sampler (weather-no-abnormal-test) 30) 
-   "weather-vs-no-abnormal.txt"))
+(defun train-min-max (egs seen)
+  (let (l)
+    (dolist (eg egs)
+      (push (likelyhood eg seen) l))
+    (find-min-max l)))
