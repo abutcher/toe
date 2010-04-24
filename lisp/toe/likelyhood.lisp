@@ -1,3 +1,29 @@
+(defun xindex-tot (tbl)
+  "Consolidates xindex hash tables into a single table"
+  (let ((ht (make-hash-table :test #'equal)))
+    (dolist (attr (table-columns (xindex tbl)))
+      (if (numeric-p attr)
+	  (dohash (key value (numeric-f attr))
+	    (setf key (push (numeric-name attr) key))
+	    (setf (gethash key ht) value))
+	  (dohash (key value (discrete-f attr))
+	    (setf key (reverse key))
+	    (setf key (push (discrete-name attr) key))
+	    (setf (gethash key ht) value))))
+    ht))
+
+(defun xindex-tot-2 (tbl)
+  (let (seen)
+    (dolist (attr (table-columns (xindex tbl)))
+      (if (numeric-p attr)
+	  (push (numeric-f attr) seen)
+	  (push (discrete-f attr) seen)))
+    (reverse seen)))
+
+(deftest test-xindex-tot ()
+  (dohash (key value (xindex-tot (weather-numerics)))
+    (format t "~A ~A~%" key value)))
+
 (defun likelyhood (this seen)
   (let ((prob 1))
     (dolist (el this)
@@ -7,9 +33,8 @@
 	      (progn (setf s (+ s value))
 		     (setf d (+ d value)))
 	      (setf d (+ d value))))
-	(if (> 1 (/ s d))
-	    (setf prob (* prob (/ s d))))))
+	(setf prob (* prob (/ (1+ s) (1+ d))))))
     prob))
 
-; (likelyhood '(RAINY 71 90 TRUE NO) (test-count-tot (weather-numerics)))
+; (likelyhood '(RAINY 71 90 TRUE NO) (xindex-tot-2 (weather-numerics)))
 

@@ -1,0 +1,44 @@
+\section{background}
+In this section we will describe and briefly discuss previous work related to the area of knowledge level modelling. As discussed in the introduction, KL modelling is well researched concept and there have been several variations on the theme. KL modelling can be presented in one of two different types of studies and implementations: 
+
+\begin{itemize}
+	\item General all encumpassing work on knowledge engineering that attempt to cover and implement a wide range of inference functions. These implementations generally do not target a specific type of data.
+	\item Specific work on KL modeling that seek to implement a small subset of functionality. Usually such implementations aim at targeting specific data sets.
+\end{itemize}
+
+The more encompassing studies seek to implement extensive KL functionality that is able derive knowledge from most data that is available to their system. such work include the modeling of cognitive processes that is presented in \cite{Clancey1985} by Clancey et. al. In this publication, the authors present flowchart style description to several processes that include:
+
+\begin{itemize}
+	\item Diagnosis
+	\item Verification
+	\item correlation
+	\item suitability
+	\item classification
+	\item Prediction
+	\item Repair
+	\item Design
+	\item Configuration
+	\item Planning
+	\item Scheduling
+\end{itemize}
+
+While implementations to these descriptions are not implemented, it is important to take note of them. Such extensive descriptions represent the tradition of knowledge modeling by way of extensive specification of any knowledge/theory producing process. These processes are briefly explained in following sections. As we will see, our own tool is a is based on his tradition of specification~\cite{riesbeck96}.
+
+Detailing current work regarding this approach to knowledge modeling is currently out of the scope of this paper. However, we will briefly present two papers that lie on either side of the fence of this knowledge modeling equation. 
+
+The first paper \cite{Menzies1996} by Menzies provides a description and a system (HT4) that follows the above tradition and which is done through abduction. Abduction here meaning that rules (or hypotheses) are produced such that, given the final effect/state, we are able to most closely determine our initial effect/state. in other words, we are producing rules that will allow us to produce/ infer old data given our current data. This method is obviously dependent on observing enough data to produce out rules. These rules will ultimately define our knowledge. In a similar manner to the cognitive processes document, this work attempts to apply knowledge modeling to achieve several of the functions mentioned above. Such functions include prediction, classification, explanation, tutoring, planning, monitoring, validation, verification and diagnosis. While not identical to the list of functions mentioned above, it overlaps with regard to most of the functionality. As such, the author presents a general tool for use in KL. Our proposed future implementation will be similar to this, with the main difference being that our method is based on induction.
+
+While this ‎is one side of knowledge modeling, the other side of knowledge modeling forgoes specifying all the above functionality, and instead specifies one rule: remember the past to determine the present \cite{riesbeck96}. This is called Case Based Reasoning (CBR). Argued for by Riesbeck, this method represents knowledge and experience with dealing with that knowledge in the form of case bases that include historical data and actions performed on the data in the past. Current actions are determined by the similarity of our current case/data to previous data. This method is based on the principle that people don't create new decisions based on cognitive analysis, but rather that current actions are based on previous actions conducted in similar situations. 
+
+In the next section we will present a description of the model that we will be using.
+
+%One specific applicatio of knowledge modelling is anomaly detection. Anomaly detection is the process of realizing a change in our current data pattern given knowledge of previous data patterns. This is a very extensive field unto itself, with many different implementations. These implementations can implement anomaly detection using many methods, includign but not restricted to:
+
+%-Classification
+%-Clustering
+%-Nearest Neighbor
+%-Statistics.
+
+%In this section, we will briefly go over a two statistical implementations of anomaly detection. 
+
+

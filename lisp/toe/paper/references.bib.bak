@@ -1,0 +1,59 @@
+% This file was created with JabRef 2.3.1.
+% Encoding: UTF-8
+
+@ARTICLE{Clancey1985,
+  author = {Clancey, William J.},
+  title = {Heuristic classification},
+  journal = {Artif. Intell.},
+  year = {1985},
+  volume = {27},
+  pages = {289--350},
+  number = {3},
+  address = {Essex, UK},
+  doi = {http://dx.doi.org/10.1016/0004-3702(85)90016-5},
+  issn = {0004-3702},
+  publisher = {Elsevier Science Publishers Ltd.}
+}
+
+@MISC{,
+  author = {Tim Menzies},
+  title = {Theory of Everything: TOE},
+  year = {2009},
+  owner = {ekrem},
+  timestamp = {2010.03.03}
+}
+
+@MISC{Menzies97object-orientedpatterns:,
+  author = {T Menzies},
+  title = {Object-Oriented Patterns: Lessons from Expert Systems},
+  year = {1997}
+}
+
+@ARTICLE{Menzies1996,
+  author = {Menzies, Tim},
+  title = {Applications of abduction: knowledge-level modelling},
+  journal = {Int. J. Hum.-Comput. Stud.},
+  year = {1996},
+  volume = {45},
+  pages = {305--335},
+  number = {3},
+  address = {Duluth, MN, USA},
+  doi = {http://dx.doi.org/10.1006/ijhc.1996.0054},
+  issn = {1071-5819},
+  publisher = {Academic Press, Inc.}
+}
+
+@ARTICLE{Wielinga1992,
+  author = {Wielinga, B. J. and Schreiber, A. Th. and Breuker, J. A.},
+  title = {KADS: a modelling approach to knowledge engineering},
+  journal = {Knowl. Acquis.},
+  year = {1992},
+  volume = {4},
+  pages = {5--53},
+  number = {1},
+  address = {London, UK, UK},
+  doi = {http://dx.doi.org/10.1016/1042-8143(92)90013-Q},
+  issn = {1042-8143},
+  publisher = {Academic Press Ltd.}
+}
+

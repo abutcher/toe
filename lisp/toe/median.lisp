@@ -1,4 +1,4 @@
-(defun median (v1 v2)
+(defun median-num (v1 v2)
   (let ((vhat))
     (dotimes (i (length v1))
       (if (numberp (nth i v1))
@@ -8,7 +8,16 @@
 	      (push (random-element (list (nth i v1) (nth i v2))) vhat))))
     (reverse vhat)))
 
-(defun favored-median (v1 v2 &optional (w1 1) (w2 1))
+(defun median (v1 v2)
+  (let ((vhat))
+    (dotimes (i (length v1))
+      (if (eql (nth i v1) (nth i v2))
+	  (push (nth i v1) vhat)
+	  (push (random-element (list (nth i v1) (nth i v2))) vhat)))
+    (reverse vhat)))
+
+
+(defun favored-median-num (v1 v2 &optional (w1 1) (w2 1))
   "v1 is weighted more than v2 in the median"
   (let ((vhat))
     (dotimes (i (length v1))
@@ -22,6 +31,20 @@
 	    (if (eql (nth i v1) (nth i v2))
 		(push (nth i v1) vhat)
 		(push (random-element l) vhat)))))
+    (reverse vhat)))
+
+(defun favored-median (v1 v2 &optional (w1 1) (w2 1))
+  "v1 is weighted more than v2 in the median"
+  (let ((vhat))
+    (dotimes (i (length v1))
+      (let (l)
+	(dotimes (j (1+ w1))
+	  (push (nth i v1) l))
+	(dotimes (k (1+ w2))
+	  (push (nth i v2) l))
+	(if (eql (nth i v1) (nth i v2))
+	    (push (nth i v1) vhat)
+	    (push (random-element l) vhat))))
     (reverse vhat)))
 
 (deftest test-median ()

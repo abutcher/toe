@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: toe.aux
+The style file: abbrv.bst
+Database file #1: references.bib
+Warning--I didn't find a database entry for "Walter"
+You've used 6 entries,
+            2118 wiz_defined-function locations,
+            542 strings with 4563 characters,
+and the built_in function-call counts, 1549 in all, are:
+= -- 152
+> -- 53
+< -- 0
++ -- 22
+- -- 16
+* -- 94
+:= -- 268
+add.period$ -- 16
+call.type$ -- 6
+change.case$ -- 26
+chr.to.int$ -- 0
+cite$ -- 6
+duplicate$ -- 57
+empty$ -- 140
+format.name$ -- 16
+if$ -- 317
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 4
+newline$ -- 31
+num.names$ -- 12
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 20
+quote$ -- 0
+skip$ -- 44
+stack$ -- 0
+substring$ -- 96
+swap$ -- 6
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 24
+warning$ -- 0
+while$ -- 18
+width$ -- 7
+write$ -- 61
+(There was 1 warning)
