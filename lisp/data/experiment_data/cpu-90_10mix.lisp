@@ -1,6 +1,6 @@
-(defun cpu-train ()
+(defun cpu-train-90-10 ()
   (data
-    :name 'cpu-train
+    :name 'cpu-train-90-10
     :columns '(vendor $MYCT $MMIN $MMAX $CACH $CHMIN $CHMAX $class)
     :egs
     '(

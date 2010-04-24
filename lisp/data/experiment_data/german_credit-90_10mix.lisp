@@ -1,6 +1,6 @@
-(defun german_credit-train ()
+(defun german_credit-train-90-10 ()
   (data
-    :name 'german_credit-train
+    :name 'german_credit-train-90-10
     :columns '(checking_status duration credit_history purpose credit_amount savings_status employment installment_commitment personal_status other_parties residence_since property_magnitude age other_payment_plans housing existing_credits job num_dependents own_telephone foreign_worker class)
     :egs
     '(

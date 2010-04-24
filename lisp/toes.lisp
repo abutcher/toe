@@ -163,6 +163,16 @@
         "data/experiment_data/cloud-anom2.lisp"
 	"data/experiment_data/splice-anom.lisp"
 	"data/experiment_data/splice-train.lisp"
+	"data/experiment_data/breast-cancer-90_10mix.lisp"
+	"data/experiment_data/cleveland-14-heart-disease-90_10mix.lisp"
+	"data/experiment_data/cloud-90_10mix2.lisp"
+	"data/experiment_data/contactlens-90_10mix.lisp"
+	"data/experiment_data/cpu-90_10mix.lisp"
+	"data/experiment_data/credit-rating-90_10mix.lisp"
+	"data/experiment_data/german_credit-90_10mix.lisp"
+	"data/experiment_data/ionosphere-90_10mix.lisp"
+	"data/experiment_data/kr-vs-kp-90_10mix.lisp"
+	"data/experiment_data/mushroom-90_10mix.lisp"
 	))
 
 (defun make-toe()

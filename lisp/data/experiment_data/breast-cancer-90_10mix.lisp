@@ -1,6 +1,6 @@
-(defun breast-cancer-train ()
+(defun breast-cancer-train-90-10 ()
   (data
-    :name 'breast-cancer-train
+    :name 'breast-cancer-train-90-10
     :columns '(age menopause tumor-size inv-nodes node-caps deg-malig breast breast-quad irradiat Class)
     :egs
     '(

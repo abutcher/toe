@@ -1,6 +1,6 @@
-(defun cloud-train-2 ()
+(defun cloud-train-2-90-10 ()
   (data
-    :name 'cloud-train-2
+    :name 'cloud-train-2-90-10
     :columns '(seeded season $NC $SC $NWC $TE)
     :egs
     '(

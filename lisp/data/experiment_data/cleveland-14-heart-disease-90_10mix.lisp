@@ -1,6 +1,6 @@
-(defun cleveland-14-heart-disease-train ()
+(defun cleveland-14-heart-disease-train-90-10 ()
   (data
-    :name 'cleveland-14-heart-disease-train
+    :name 'cleveland-14-heart-disease-train-90-10
     :columns '(age sex cp trestbps chol fbs restecg thalach exang oldpeak slope ca thal num)
     :egs
     '(

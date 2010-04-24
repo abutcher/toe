@@ -1,6 +1,6 @@
-(defun kr-vs-kp-train ()
+(defun kr-vs-kp-train-90-10 ()
   (data
-    :name 'kr-vs-kp-train
+    :name 'kr-vs-kp-train-90-10
     :columns '(bkblk bknwy bkon8 bkona bkspr bkxbq bkxcr bkxwp blxwp bxqsq cntxt dsopp dwipd hdchk katri mulch qxmsq r2ar8 reskd reskr rimmx rkxwp rxmsq simpl skach skewr skrxp spcop stlmt thrsk wkcti wkna8 wknck wkovl wkpos wtoeg class)
     :egs
     '(

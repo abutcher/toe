@@ -1,6 +1,6 @@
-(defun credit-rating-train ()
+(defun credit-rating-train-90-10 ()
   (data
-    :name 'credit-rating-train
+    :name 'credit-rating-train-90-10
     :columns '(A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 A12 A13 A14 A15 class)
     :egs
     '(

@@ -1,6 +1,6 @@
-(defun contact-lens-train ()
+(defun contact-lens-train-90-10 ()
   (data
-   :name 'contact-lens-train
+   :name 'contact-lens-train-90-10
    :columns '(age perscription astigmatism tear-production lens)
    :egs
    '(
