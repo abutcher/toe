@@ -200,6 +200,10 @@
 	"toe/likelyhood"
 	"toe/anomaly"
 	"toe/contrast-ex"
+	"toe/line"
+	"toe/ttest"
+	"toe/wilcoxon"
+	"toe/wilcoxon2"
 	"cat"
 	))
 
