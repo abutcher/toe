@@ -125,16 +125,16 @@
 ;   (era (sampler (discretize (german_credit-train-90-10) :n 10) 1000) :n 100)
 ;   "german_credit-train-vs-normal.txt")
 
-;  (anomaly-detector 
-;   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
-;   (era (sampler (discretize (cloud-anom) :n 10) 1000) :n 100)
-;   "cloud-train-vs-anom.txt")
-
-;  (anomaly-detector 
-;   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
-;   (era (sampler (discretize (cloud-train-2-90-10) :n 10) 1000) :n 100)
-;   "cloud-train-vs-normal.txt")
-
+  (anomaly-detector 
+   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
+   (era (sampler (discretize (cloud-anom-2) :n 10) 1000) :n 100)
+   "cloud-train-vs-anom.txt")
+  
+  (anomaly-detector 
+   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
+   (era (sampler (discretize (cloud-train-2-90-10) :n 10) 1000) :n 100)
+   "cloud-train-vs-normal.txt")
+  
   (anomaly-detector 
    (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000)
    (era (sampler (discretize (cleveland-14-heart-disease-anom) :n 10) 1000) :n 100)
@@ -176,13 +176,13 @@
    "mushroom-train-vs-normal.txt")
 
   (anomaly-detector 
-   (discretize (give-me-1000 (splice-train)))
+   (discretize (give-me-1000 (splice-train-90-10)))
    (era (discretize (give-me-1000 (splice-anom)) :n 10) :n 100)
    "splice-train-vs-anom.txt")
 
   (anomaly-detector 
-   (discretize (give-me-1000 (splice-train)) :n 10)
-   (era (discretize (give-me-1000 (splice-train)) :n 10) :n 100)
+   (discretize (give-me-1000 (splice-train-90-10)) :n 10)
+   (era (discretize (give-me-1000 (splice-train-90-10)) :n 10) :n 100)
    "splice-train-vs-normal.txt")
 )
 

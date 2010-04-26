@@ -173,6 +173,7 @@
 	"data/experiment_data/ionosphere-90_10mix.lisp"
 	"data/experiment_data/kr-vs-kp-90_10mix.lisp"
 	"data/experiment_data/mushroom-90_10mix.lisp"
+	"data/experiment_data/splice-90_10mix.lisp"
 	))
 
 (defun make-toe()
