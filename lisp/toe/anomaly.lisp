@@ -69,7 +69,7 @@
     (let* ((train-mm (find-min-max l))
 	   (train-min (first train-mm))
 	   (train-max (second train-mm))
-	   (diff (/ (- train-max train-min) 40))
+	   (diff (/ (- train-max train-min) 20))
 	   (train-min (+ train-min diff)))
 ;	   (train-max (- train-max diff)))
       (list train-min train-max))))
