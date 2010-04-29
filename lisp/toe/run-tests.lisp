@@ -28,3 +28,7 @@
    (list 'cloud-train-2 'cloud-anom-2)
    (list 'cleveland-14-heart-disease-train 'cleveland-14-heart-disease-anom)
    (list 'ionosphere-train 'ionosphere-anom)))
+
+(defun run-em-all-bitch ()
+  (dolist (drop '(25 20 10 5 2.5))
+    (run-tests *TESTS* drop)))
