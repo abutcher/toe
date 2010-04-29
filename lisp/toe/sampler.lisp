@@ -36,12 +36,11 @@
       (loop
 	 (if (>= (length samples) n) (return))
 	 (walk gac-tree)))
-    
     (data
      :name (table-name tbl)
      :columns (columns-header (table-columns tbl))
      :klass (table-class tbl)
-     :egs samples
+     :egs (subseq samples 0 n)
      )))
 
 (deftest test-sampler ()
@@ -83,3 +82,14 @@
       (if (equal nil (assoc k l))
 	  (push (cons k 1) l)
 	  (setf (cdr (assoc k l)) (1+ (cdr (assoc k l))))))))
+
+(defun combine-egs (tbl-one tbl-two)
+  (let* ((tbl-one-egs (mapcar #'eg-features (egs tbl-one)))
+	 (tbl-two-egs (mapcar #'eg-features (egs tbl-two)))
+	 (combined-egs (append tbl-one-egs tbl-two-egs)))
+    (data
+     :name (table-name tbl-one)
+     :columns (columns-header (table-columns tbl-one))
+     :klass (table-class tbl-one)
+     :egs combined-egs
+     )))

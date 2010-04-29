@@ -206,6 +206,7 @@
 	"toe/wilcoxon"
 	"toe/wilcoxon2"
 	"cat"
+	"toe/run-tests"
 	))
 
 (make-toe)

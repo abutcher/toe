@@ -1,10 +1,10 @@
-(defun anomaly-detector (train tests file &optional (fix-anomaly? NIL))
+(defun anomaly-detector (train tests file &key (fix-anomaly? NIL) (drop-what 5))
   (with-open-file (stream file
 			  :direction :output
 			  :if-exists :supersede
 			  :if-does-not-exist :create )
     (let* ((seen (xindex-tot-2 train))
-	   (train-mm (train-min-max (mapcar #'eg-features (egs train)) seen))
+	   (train-mm (train-min-max (mapcar #'eg-features (egs train)) seen drop-what))
 	   (train-min (first train-mm))
 	   (train-max (second train-mm))
 	   (train-spread (third train-mm))
@@ -72,7 +72,7 @@
 		  ; Remake seen
 		  (setf seen (xindex-tot-2 train))
 		  ; Update train-min and train-max
-		  (setf train-mm (train-min-max (mapcar #'eg-features (egs train)) seen))
+		  (setf train-mm (train-min-max (mapcar #'eg-features (egs train)) seen drop-what))
 		  (setf train-min (first train-mm))
 		  (setf train-max (second train-mm))
 		  (setf train-spread (third train-mm))
@@ -80,130 +80,18 @@
       (format stream "OVERALL ACCEPTED/REJECTED: ~A/~A~%" accept-count reject-count))
     file))
 
-(defun train-min-max (egs seen)
+(defun train-min-max (egs seen drop-what)
   (let (l)
     (dolist (eg egs)
       (push (likelyhood eg seen) l))
     (let* ((train-mm (find-min-max l))
 	   (train-min (first train-mm))
 	   (train-max (second train-mm))
-	   (diff (/ (- train-max train-min) 20))
+	   (diff (/ (- train-max train-min) (/ 100 drop-what)))
 	   (train-min (+ train-min diff)))
 ;	   (train-max (- train-max diff)))
       (list train-min train-max l))))
       
-(defun run-tests ()
-  (anomaly-detector 
-   (sampler (discretize (contact-lens-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (contact-lens-anom) :n 10) 1000) :n 100)
-   "contact-lens-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (contact-lens-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (contact-lens-train-90-10)) 1000) :n 100)
-   "contact-lens-train-vs-normal.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (credit-rating-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (credit-rating-anom) :n 10) 1000) :n 100)
-   "credit-rating-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (credit-rating-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (credit-rating-train-90-10) :n 10) 1000) :n 100)
-   "credit-rating-vs-normal.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (breast-cancer-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (breast-cancer-anom) :n 10) 1000) :n 100)
-   "breast-cancer-train-vs-anom.txt")
-  
-  (anomaly-detector 
-   (sampler (discretize (breast-cancer-train-90-10)) 1000)
-   (era (sampler (discretize (breast-cancer-train)) 1000) :n 100)
-   "breast-cancer-train-vs-normal.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (cpu-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (cpu-anom) :n 10) 1000) :n 100)
-   "cpu-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (cpu-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (cpu-train-90-10) :n 10) 1000) :n 100)
-   "cpu-train-vs-normal.txt")
-
-;  (anomaly-detector 
-;   (sampler (discretize (german_credit-train-90-10) :n 10) 1000)
-;   (era (sampler (discretize (german_credit-anom) :n 10) 1000) :n 100)
-;   "german_credit-train-vs-anom.txt")
-
-;  (anomaly-detector 
-;   (sampler (discretize (german_credit-train-90-10) :n 10) 1000)
-;   (era (sampler (discretize (german_credit-train-90-10) :n 10) 1000) :n 100)
-;   "german_credit-train-vs-normal.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
-   (era (sampler (discretize (cloud-anom-2) :n 10) 1000) :n 100)
-   "cloud-train-vs-anom.txt")
-  
-  (anomaly-detector 
-   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
-   (era (sampler (discretize (cloud-train-2-90-10) :n 10) 1000) :n 100)
-   "cloud-train-vs-normal.txt")
-  
-  (anomaly-detector 
-   (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (cleveland-14-heart-disease-anom) :n 10) 1000) :n 100)
-   "cleveland-14-heart-disease-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000) :n 100)
-   "cleveland-14-heart-disease-train-vs-normal.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (ionosphere-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (ionosphere-anom) :n 10) 1000) :n 100)
-   "ionosphere-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (ionosphere-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (ionosphere-train-90-10) :n 10) 1000) :n 100)
-   "ionosphere-train-vs-normal.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (kr-vs-kp-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (kr-vs-kp-anom) :n 10) 1000) :n 100)
-   "kr-vs-kp-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (sampler (discretize (kr-vs-kp-train-90-10) :n 10) 1000)
-   (era (sampler (discretize (kr-vs-kp-train-90-10) :n 10) 1000) :n 100)
-   "kr-vs-kp-train-vs-normal.txt")
-
-  (anomaly-detector
-   (discretize (give-me-1000 (mushroom-train-90-10)) :n 10)
-   (era (discretize (give-me-1000 (mushroom-anom)) :n 10) :n 100)
-   "mushroom-train-vs-anom.txt")
-
-  (anomaly-detector
-   (discretize (give-me-1000 (mushroom-train-90-10)) :n 10)
-   (era (discretize (give-me-1000 (mushroom-train-90-10))) :n 100)
-   "mushroom-train-vs-normal.txt")
-
-  (anomaly-detector 
-   (discretize (give-me-1000 (splice-train-90-10)))
-   (era (discretize (give-me-1000 (splice-anom)) :n 10) :n 100)
-   "splice-train-vs-anom.txt")
-
-  (anomaly-detector 
-   (discretize (give-me-1000 (splice-train-90-10)) :n 10)
-   (era (discretize (give-me-1000 (splice-train-90-10)) :n 10) :n 100)
-   "splice-train-vs-normal.txt")
-)
-
 (defun give-me-1000 (tbl)
   (let ((tbl-egs (mapcar #'eg-features (egs (randomizer tbl)))))
     (data
@@ -213,109 +101,3 @@
      :egs (subseq tbl-egs 0 1000)
      )
     ))
-
-	(defun run-tests-with-fix ()
-	  (anomaly-detector 
-	   (sampler (discretize (contact-lens-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (contact-lens-anom) :n 10) 1000) :n 100)
-	   "contact-lens-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (contact-lens-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (contact-lens-train-90-10)) 1000) :n 100)
-	   "contact-lens-train-vs-normal-with-fix.txt" T) 
-
-	  (anomaly-detector 
-	   (sampler (discretize (credit-rating-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (credit-rating-anom) :n 10) 1000) :n 100)
-	   "credit-rating-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (credit-rating-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (credit-rating-train-90-10) :n 10) 1000) :n 100)
-	   "credit-rating-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (breast-cancer-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (breast-cancer-anom) :n 10) 1000) :n 100)
-	   "breast-cancer-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (breast-cancer-train-90-10)) 1000)
-	   (era (sampler (discretize (breast-cancer-train)) 1000) :n 100)
-	   "breast-cancer-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (cpu-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (cpu-anom) :n 10) 1000) :n 100)
-	   "cpu-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (cpu-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (cpu-train-90-10) :n 10) 1000) :n 100)
-	   "cpu-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
-	   (era (sampler (discretize (cloud-anom-2) :n 10) 1000) :n 100)
-	   "cloud-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (cloud-train-2-90-10) :n 10) 1000)
-	   (era (sampler (discretize (cloud-train-2-90-10) :n 10) 1000) :n 100)
-	   "cloud-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (cleveland-14-heart-disease-anom) :n 10) 1000) :n 100)
-	   "cleveland-14-heart-disease-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (cleveland-14-heart-disease-train-90-10) :n 10) 1000) :n 100)
-	   "cleveland-14-heart-disease-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (ionosphere-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (ionosphere-anom) :n 10) 1000) :n 100)
-	   "ionosphere-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (ionosphere-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (ionosphere-train-90-10) :n 10) 1000) :n 100)
-	   "ionosphere-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (kr-vs-kp-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (kr-vs-kp-anom) :n 10) 1000) :n 100)
-	   "kr-vs-kp-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (sampler (discretize (kr-vs-kp-train-90-10) :n 10) 1000)
-	   (era (sampler (discretize (kr-vs-kp-train-90-10) :n 10) 1000) :n 100)
-	   "kr-vs-kp-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector
-	   (discretize (give-me-1000 (mushroom-train-90-10)) :n 10)
-	   (era (discretize (give-me-1000 (mushroom-anom)) :n 10) :n 100)
-	   "mushroom-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector
-	   (discretize (give-me-1000 (mushroom-train-90-10)) :n 10)
-	   (era (discretize (give-me-1000 (mushroom-train-90-10))) :n 100)
-	   "mushroom-train-vs-normal-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (discretize (give-me-1000 (splice-train-90-10)))
-	   (era (discretize (give-me-1000 (splice-anom)) :n 10) :n 100)
-	   "splice-train-vs-anom-with-fix.txt" T)
-
-	  (anomaly-detector 
-	   (discretize (give-me-1000 (splice-train-90-10)) :n 10)
-	   (era (discretize (give-me-1000 (splice-train-90-10)) :n 10) :n 100)
-	   "splice-train-vs-normal-with-fix.txt" T)
-	)
-
-
-
-
