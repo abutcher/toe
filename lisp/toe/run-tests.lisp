@@ -5,12 +5,12 @@
     (anomaly-detector
      combo
      (era (sampler (discretize train-tbl :n 10) 1000) :n 100)
-     (format nil "~A-vs-normal-drop~A.txt" (table-name train-tbl) drop-what)
+     (format nil "mod-tests/~A-vs-normal-drop~A.txt" (table-name train-tbl) drop-what)
      :drop-what drop-what)
     (anomaly-detector
      combo
      (era (sampler (discretize anom-tbl :n 10) 1000) :n 100)
-     (format nil "~A-vs-anomalous-drop~A.txt" (table-name train-tbl) drop-what)
+     (format nil "mod-tests/~A-vs-anomalous-drop~A.txt" (table-name train-tbl) drop-what)
      :drop-what drop-what)))
 
 (defun run-tests (tests drop-what)
