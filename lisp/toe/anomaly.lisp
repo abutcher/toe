@@ -1,4 +1,4 @@
-(defun anomaly-detector (train tests file &key (fix-anomaly? NIL) (drop-what 5))
+(defun anomaly-detector (train tests file &key (fix-anomaly? NIL) (drop-what 5) (update? nil))
   (with-open-file (stream file
 			  :direction :output
 			  :if-exists :supersede
@@ -57,8 +57,6 @@
 
 	  ; Update train table
 	  (unless (null test-spread)
-;	    (print train-spread)
-;	    (print test-spread)
 	    (if (= 0 (ttest-from-lists train-spread test-spread))
 		(progn 
 		  (format stream "~%~% CHOOSING TO ACCEPT ERA ~A ~%" (position this-test tests))
@@ -69,9 +67,9 @@
 			 :klass (table-class train)
 			 :egs (append accepted (mapcar #'eg-features (egs train)))
 			 ))
-		  ; Remake seen
+		    ; Remake seen
 		  (setf seen (xindex-tot-2 train))
-		  ; Update train-min and train-max
+		    ; Update train-min and train-max
 		  (setf train-mm (train-min-max (mapcar #'eg-features (egs train)) seen drop-what))
 		  (setf train-min (first train-mm))
 		  (setf train-max (second train-mm))
