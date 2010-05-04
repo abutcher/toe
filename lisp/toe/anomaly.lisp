@@ -92,12 +92,12 @@
 ;	   (train-max (- train-max diff)))
       (list train-min train-max l))))
       
-(defun give-me-1000 (tbl)
+(defun give-me-n (tbl n)
   (let ((tbl-egs (mapcar #'eg-features (egs (randomizer tbl)))))
     (data
      :name (table-name tbl)
      :columns (columns-header (table-columns tbl))
      :klass (table-class tbl)
-     :egs (subseq tbl-egs 0 1000)
+     :egs (subseq tbl-egs 0 n)
      )
     ))
